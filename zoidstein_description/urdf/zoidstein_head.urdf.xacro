@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="zoidstein_head">
+        <link name="base_link" />
+        <link name="neck_yaw_link" />
+        <link name="neck_pitch_link" />
+        <link name="gaze" />
+
+        <joint name="base_joint" type="fixed">
+            <child link="neck_yaw_link"/>
+            <parent link="base_link"/>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </joint>
+
+        <joint name="neck_yaw" type="revolute">
+            <parent link="base_link"/>
+            <child link="neck_yaw_link"/>
+            <origin xyz="0.1 0 0" rpy="0 -1.57 0"/>
+            <axis xyz="1 0 0"/>
+            <limit velocity="1.0" effort="30" lower="-1.0" upper="1.0" />
+        </joint>
+
+        <joint name="neck_pitch" type="revolute">
+            <parent link="neck_roll_link"/>
+            <child link="neck_pitch_link"/>
+            <origin xyz="0.1 0 0" rpy="-1.57 0 0"/>
+            <axis xyz="0 1 0"/>
+            <limit velocity="0.78" effort="30" lower="-0.8" upper="0.8" />
+        </joint>
+
+        <joint name="gaze_joint" type="fixed">
+            <parent link="neck_pitch_link"/>
+            <child link="gaze"/>
+            <origin xyz="0.05 0 -0.1" rpy="0 1.57 0"/>
+        </joint>
+    </xacro:macro>
+</robot>

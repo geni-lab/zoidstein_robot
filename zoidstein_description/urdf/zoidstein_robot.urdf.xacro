@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="zoidstein">
+    <xacro:include filename="$(find zoidstein_description)/urdf/zoidstein_head.urdf.xacro" />
+    <xacro:include filename="$(find zoidstein_description)/urdf/zoidstein_camera.urdf.xacro" />
+    <!-- Properties -->
+    <xacro:property name="pi" value="3.14159265359" />
+
+    <!-- Head and camera -->
+    <xacro:zoidstein_head/>
+    <xacro:zoidstein_camera/>
+
+</robot>
