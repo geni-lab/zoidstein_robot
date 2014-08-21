@@ -20,6 +20,10 @@ class BgeGazeActionServer(GazeActionServer):
         self.gaze_frame = rospy.get_param('~gaze_frame', 'gaze')
         self.rate = rospy.Rate(rospy.get_param('~hz'), 10)
 
+    #TODO: enable gaze controller on execute
+    #TODO: disable gaze controller on cancel
+    #TODO: make urdf so can receive feedback
+
     def run(self):
         while not rospy.is_shutdown():
             if self.gaze_goal is not None:

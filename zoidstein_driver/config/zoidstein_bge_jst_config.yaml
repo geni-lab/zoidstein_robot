@@ -1,8 +1,0 @@
-
-    -   bone_name: neck_yaw_joint
-        joint_name: neck_yaw_joint
-        axis: z
-
-    -   bone_name: neck_pitch_joint
-        joint_name: neck_pitch_joint
-        axis: x
