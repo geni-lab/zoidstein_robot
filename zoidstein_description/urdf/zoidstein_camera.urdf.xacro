@@ -1,40 +1,69 @@
 <?xml version="1.0"?>
+<!-- Source: https://github.com/corot/thorp/blob/master/thorp_bringup/urdf/thorp.urdf.xacro#L112 -->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:macro name="zoidstein_camera">
-        <link name="camera_link"/>
-        <link name="camera_depth_frame"/>
-        <link name="camera_rgb_frame"/>
-        <link name="camera_rgb_optical_frame"/>
-        <link name="camera_depth_optical_frame"/>
+    <xacro:macro name="zoidstein_camera"
+                 params="camera_parent camera_origin_x camera_origin_y camera_origin_z camera_origin_roll camera_origin_pitch camera_origin_yaw">
 
-        <joint name="camera_joint" type="fixed">
-            <origin xyz="" rpy="" />
-            <parent link="" />
-            <child link="camera_link" />
+        <link name="senz3d_rgb_frame"/>
+        <link name="senz3d_rgb_optical_frame"/>
+        <link name="senz3d_depth_frame"/>
+        <link name="senz3d_depth_optical_frame"/>
+
+        <joint name="senz3d_camera_joint" type="fixed">
+            <!-- <origin xyz="-0.045 -0.062 0.345" rpy="${M_PI/2 + 0.907571211037} 0.0 ${M_PI/2}"/> -->
+            <origin xyz="${camera_origin_x} ${camera_origin_y} ${camera_origin_z}"
+                    rpy="${camera_origin_roll} ${camera_origin_pitch} ${camera_origin_yaw}"/>
+            <parent link="${camera_parent}"/>
+            <child link="senz3d_camera_link"/>
         </joint>
 
-        <joint name="camera_depth_joint" type="fixed">
-            <origin xyz="0 0.018 0" rpy="0 0 0" />
-            <parent link="camera_link" />
-            <child link="camera_depth_frame" />
+        <link name="senz3d_camera_link">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <!-- As we don't have a Senz3D mesh, use a deformed Asus Xtion Pro instead -->
+                    <mesh filename="package://turtlebot_description/meshes/sensors/asus_xtion_pro_live.dae"
+                          scale="0.0006 0.0015 0.001"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 -0.005" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.11 0.04 0.04"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <mass value="0.271"/>
+                <origin xyz="0 0 0"/>
+                <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                         iyy="0.001" iyz="0.0"
+                         izz="0.001"/>
+            </inertial>
+        </link>
+
+        <!-- Add frames for RGB and depth optical axes -->
+        <joint name="senz3d_rgb_joint" type="fixed">
+            <origin xyz="0.0125 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <parent link="senz3d_camera_link"/>
+            <child link="senz3d_rgb_frame"/>
         </joint>
 
-        <joint name="camera_depth_optical_joint" type="fixed">
-            <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
-            <parent link="camera_depth_frame" />
-            <child link="camera_depth_optical_frame" />
+        <joint name="senz3d_rgb_optical_joint" type="fixed">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 ${M_PI}"/>
+            <parent link="senz3d_rgb_frame"/>
+            <child link="senz3d_rgb_optical_frame"/>
         </joint>
 
-        <joint name="camera_rgb_joint" type="fixed">
-            <origin xyz="0 -0.005 0" rpy="0 0 0" />
-            <parent link="camera_link" />
-            <child link="camera_rgb_frame" />
+        <joint name="senz3d_depth_joint" type="fixed">
+            <origin xyz="-0.0125 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <parent link="senz3d_camera_link"/>
+            <child link="senz3d_depth_frame"/>
         </joint>
 
-        <joint name="camera_rgb_optical_joint" type="fixed">
-            <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
-            <parent link="camera_rgb_frame" />
-            <child link="camera_rgb_optical_frame" />
+        <joint name="senz3d_depth_optical_joint" type="fixed">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 ${M_PI}"/>
+            <parent link="senz3d_depth_frame"/>
+            <child link="senz3d_depth_optical_frame"/>
         </joint>
     </xacro:macro>
 </robot>
