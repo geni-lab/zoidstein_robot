@@ -17,4 +17,7 @@
     <node pkg="ros_bge_bridge" type="launch_blender" name="launch_blender" output="screen">
         <param name="blend_file" value="$(find zoidstein_description)/blender/zoidstein.blend" />
     </node>
+
+    <node pkg="zoidstein_driver" type="joint_state_publisher" name="joint_state_publisher" output="screen">
+    </node>
 </launch>

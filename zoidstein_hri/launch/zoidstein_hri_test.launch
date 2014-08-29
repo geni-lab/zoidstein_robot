@@ -1,0 +1,46 @@
+<launch>
+    <param name="robot_name" value="zoidstein" />
+    <param name="armature_name" value="Armature" />
+    <param name="joint_axes_yaml" value="$(find zoidstein_driver)/config/zoidstein_joint_axes.yaml" />
+    <param name="zoidstein_hri_api_yaml" value="$(find zoidstein_hri)/config/zoidstein_hri_api.yaml" />
+
+    <!-- Drivers -->
+    <node pkg="ros_pololu_servo" type="ros_pololu_servo_node" name="ros_pololu_servo_node" output="screen">
+        <param name="pololu_motors_yaml" value="$(find zoidstein_driver)/config/zoidstein_pololu_motors.yaml" />
+        <param name="port_name" value="/dev/ttyACM0" />
+        <param name="baud_rate" value="115200" />
+        <param name="rate_hz" value="10" />
+    </node>
+
+    <param name="robot_description" command="$(find xacro)/xacro.py $(find zoidstein_description)/urdf/zoidstein_robot.urdf.xacro" />
+    <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" />
+    <node pkg="zoidstein_driver" type="joint_state_publisher.py" name="joint_state_publisher" />
+
+    <!-- Controllers -->
+    <node pkg="ros_bge_bridge" type="run_bge_controllers.py" name="bge_controllers" output="screen">
+        <param name="bge_controllers_yaml" value="$(find zoidstein_driver)/config/zoidstein_bge_controllers.yaml" />
+    </node>
+
+    <node pkg="ros_bge_bridge" type="launch_blender" name="launch_blender" output="screen">
+        <param name="blend_file" value="$(find zoidstein_description)/blender/zoidstein.blend" />
+    </node>
+
+    <!-- HRI action servers -->
+    <!--<node pkg="zoidstein_hri" type="zoidstein_gaze_server.py" name="gaze_server" output="screen">-->
+        <!--<param name="origin_frame" value="base_link" />-->
+        <!--<param name="gaze_frame" value="gaze" />-->
+        <!--<param name="rate" value="10" />-->
+    <!--</node>-->
+
+    <!-- Fake people -->
+    <node pkg="tf" type="static_transform_publisher" name="base_link_to_map" args="0 0 1 0 0 0 /map /base_link 20" />
+
+    <node pkg="tf" type="static_transform_publisher" name="person1_head" args="2 2 1.9 0 0 0 /map /person1_head 20" />
+    <node pkg="tf" type="static_transform_publisher" name="person1_torso" args="2 2 1 0 0 0 /map /person1_torso 20" />
+
+    <node pkg="tf" type="static_transform_publisher" name="person2_head" args="2 0.3 1.76 0 0 0 /map /person2_head 20" />
+    <node pkg="tf" type="static_transform_publisher" name="person2_torso" args="2 0.3 1.16 0 0 0 /map /person2_torso 20" />
+
+    <node pkg="tf" type="static_transform_publisher" name="person3_head" args="1 -1 1.5 0 0 0 /map /person3_head 20" />
+    <node pkg="tf" type="static_transform_publisher" name="person3_torso" args="1 -1 0.9 0 0 0 /map /person3_torso 20" />
+</launch>

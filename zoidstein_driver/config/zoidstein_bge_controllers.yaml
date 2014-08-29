@@ -1,6 +1,6 @@
 # BGE based body controllers
 
-zoidstein_bge_neck_controller:
+bge_neck_controller:
   default_speed: 0.5
   default_acceleration: 0.1
   joints:
