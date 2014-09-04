@@ -1,13 +1,15 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="zoidstein">
     <xacro:include filename="$(find zoidstein_description)/urdf/zoidstein_head.urdf.xacro"/>
-    <xacro:include filename="$(find zoidstein_description)/urdf/zoidstein_camera.urdf.xacro"/>
+    <xacro:include filename="$(find zoidstein_description)/urdf/zoidstein_camera_joint.urdf.xacro"/>
+    <xacro:include filename="$(find zoidstein_description)/urdf/senz3d.urdf.xacro"/>
     <!-- Properties -->
     <xacro:property name="pi" value="3.14159265359"/>
     <xacro:property name="M_PI" value="3.14159265359"/>
 
     <!-- Head and camera -->
     <xacro:zoidstein_head/>
-    <xacro:zoidstein_camera camera_parent="base_link" camera_origin_x="0.5" camera_origin_y="0" camera_origin_z="0"
+    <xacro:zoidstein_camera_joint/>
+    <xacro:senz3d camera_parent="camera_link" camera_origin_x="0.01682" camera_origin_y="-0.03898" camera_origin_z="0"
                             camera_origin_roll="0" camera_origin_pitch="0" camera_origin_yaw="0"/>
 </robot>

@@ -10,14 +10,19 @@
         <param name="rate_hz" value="10" />
     </node>
 
-    <node pkg="ros_bge_bridge" type="run_bge_controllers.py" name="bge_controllers" output="screen">
-        <param name="bge_controllers_yaml" value="$(find zoidstein_driver)/config/zoidstein_bge_controllers.yaml" />
-    </node>
+    <!--<node pkg="ros_bge_bridge" type="run_bge_controllers.py" name="bge_controllers" output="screen">-->
+        <!--<param name="bge_controllers_yaml" value="$(find zoidstein_driver)/config/zoidstein_bge_controllers.yaml" />-->
+    <!--</node>-->
 
-    <node pkg="ros_bge_bridge" type="launch_blender" name="launch_blender" output="screen">
-        <param name="blend_file" value="$(find zoidstein_description)/blender/zoidstein.blend" />
-    </node>
+    <!--<node pkg="ros_bge_bridge" type="launch_blender" name="launch_blender" output="screen">-->
+        <!--<param name="blend_file" value="$(find zoidstein_description)/blender/zoidstein.blend" />-->
+    <!--</node>-->
 
-    <node pkg="zoidstein_driver" type="joint_state_publisher" name="joint_state_publisher" output="screen">
+    <!--<node pkg="zoidstein_driver" type="joint_state_publisher" name="joint_state_publisher" output="screen" />-->
+
+    <node pkg="zoidstein_driver" type="camera_pitch_node" name="camera_pitch_node" output="screen">
+        <param name="point_cloud_topic" value="/softkinetic_camera/depth_registered/points" />
+        <param name="joint_name" value="camera_joint" />
+        <param name="pololu_topic" value="pololu" />
     </node>
 </launch>

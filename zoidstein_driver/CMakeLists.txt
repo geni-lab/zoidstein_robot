@@ -8,6 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   tf
+  pcl_ros
+  ros_pololu_servo
 )
 
 ## System dependencies are found with CMake's conventions
@@ -103,16 +105,16 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-# add_executable(zoidstein_driver_node src/zoidstein_driver_node.cpp)
+add_executable(camera_pitch_node src/camera_pitch_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(zoidstein_driver_node zoidstein_driver_generate_messages_cpp)
+#add_dependencies(zoidstein_driver_node zoidstein_driver_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(zoidstein_driver_node
-#   ${catkin_LIBRARIES}
-# )
+ target_link_libraries(camera_pitch_node
+   ${catkin_LIBRARIES}
+ )
 
 #############
 ## Install ##

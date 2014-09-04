@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="zoidstein_camera_joint">
+        <link name="camera_link" />
+
+        <joint name="camera_joint" type="revolute">
+            <parent link="base_link"/>
+            <child link="camera_link"/>
+            <origin xyz="0.0638 0.056 -0.022" rpy="0 0 0" />
+            <axis xyz="0 1 0"/>
+            <limit velocity="1.0" effort="1" lower="-0.8726" upper="0" />
+        </joint>
+    </xacro:macro>
+</robot>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!-- Source: https://github.com/corot/thorp/blob/master/thorp_bringup/urdf/thorp.urdf.xacro#L112 -->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:macro name="zoidstein_camera"
+    <xacro:macro name="senz3d"
                  params="camera_parent camera_origin_x camera_origin_y camera_origin_z camera_origin_roll camera_origin_pitch camera_origin_yaw">
 
         <link name="senz3d_rgb_frame"/>
