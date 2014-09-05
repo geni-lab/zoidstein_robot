@@ -16,21 +16,32 @@
     <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" />
     <node pkg="zoidstein_driver" type="joint_state_publisher.py" name="joint_state_publisher" />
 
-    <!-- Controllers -->
+
+    <!--<node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" >-->
+        <!--<param name="use_gui" value="true"/>-->
+    <!--</node>-->
+
+     <!--Controllers-->
     <node pkg="ros_bge_bridge" type="run_bge_controllers.py" name="bge_controllers" output="screen">
         <param name="bge_controllers_yaml" value="$(find zoidstein_driver)/config/zoidstein_bge_controllers.yaml" />
     </node>
 
     <node pkg="ros_bge_bridge" type="launch_blender" name="launch_blender" output="screen">
         <param name="blend_file" value="$(find zoidstein_description)/blender/zoidstein.blend" />
+        <param name="use_game_engine" value="true" />
     </node>
 
     <!-- HRI action servers -->
-    <!--<node pkg="zoidstein_hri" type="zoidstein_gaze_server.py" name="gaze_server" output="screen">-->
-        <!--<param name="origin_frame" value="base_link" />-->
-        <!--<param name="gaze_frame" value="gaze" />-->
-        <!--<param name="rate" value="10" />-->
-    <!--</node>-->
+    <node pkg="zoidstein_hri" type="zoidstein_gaze_server.py" name="gaze_server" output="screen">
+        <param name="origin_frame" value="base_link" />
+        <param name="gaze_frame" value="gaze" />
+        <param name="rate" value="10" />
+    </node>
+
+    <node pkg="zoidstein_hri" type="zoidstein_lip_sync.py" name="zoidstein_lip_sync" output="screen"/>
+    <node pkg="zoidstein_hri" type="zoidstein_perception_synthesizer.py" name="zoidstein_perception_synthesizer" output="screen"/>
+    <node pkg="zoidstein_hri" type="zoidstein_expression_server.py" name="zoidstein_expression_server" output="screen"/>
+    <node pkg="zoidstein_hri" type="zoidstein_tts_server.py" name="zoidstein_tts_server" output="screen"/>
 
     <!-- Fake people -->
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_map" args="0 0 1 0 0 0 /map /base_link 20" />

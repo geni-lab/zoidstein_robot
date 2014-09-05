@@ -1,4 +1,0 @@
-robot:
-  type: zoidstein
-  gestures: [wave, point]
-  facial_expressions: [smile]

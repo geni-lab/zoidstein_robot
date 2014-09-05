@@ -2,13 +2,16 @@
 import rospy
 from hri_msgs.msg import ExpressionAction, ExpressionResult
 from hri_framework.multi_goal_action_server import MultiGoalActionServer
-from zoidstein_hri.zoidstein_expressions import ZoidsteinExpression
+from zoidstein_hri import ZoidExpression
 import threading
 from ros_pololu_servo.msg import MotorCommand
 from ros_pololu_servo.srv import MotorRange
 from hri_api.entities import Speed, Intensity
 import time
 
+
+def clamp(self, value, min_value, max_value):
+    return max(min(value, max_value), min_value)
 
 def interpolate(value, old_min, old_max, new_min, new_max):
     # Width of each range
@@ -42,12 +45,12 @@ class ZoidsteinExpressionServer(object):
         rospy.loginfo('Accepted new goal: {0}'.format(new_goal))
 
         found = False
-        for name, member in ZoidsteinExpression.__members__.items():
+        for name, member in ZoidExpression.__members__.items():
             if name == new_goal.expression:
                 found = True
 
         if not found:
-            rospy.logerr('{0} is not a valid expression. Valid expressions are: {1}'.format(new_goal.expression, ZoidsteinExpression))
+            rospy.logerr('{0} is not a valid expression. Valid expressions are: {1}'.format(new_goal.expression, ZoidExpression))
             self.action_server.set_aborted(goal_handle)
             return
 
@@ -57,20 +60,20 @@ class ZoidsteinExpressionServer(object):
     def start_expression(self, goal_handle):
         goal = goal_handle.get_goal()
 
-        expression = ZoidsteinExpression[goal.expression]
-        speed = Speed[goal.speed].normalised()
-        intensity = Intensity[goal.intensity].normalised()
+        expression = ZoidExpression[goal.expression]
+        speed = goal.speed
+        intensity = goal.intensity
         duration = goal.duration
 
-        if expression in [ZoidsteinExpression.smile, ZoidsteinExpression.frown_mouth]:
+        if expression in [ZoidExpression.smile, ZoidExpression.frown_mouth]:
             joint_name = 'smile_joint'
-        elif expression in [ZoidsteinExpression.open_mouth]:
+        elif expression in [ZoidExpression.open_mouth]:
             joint_name = 'jaw_joint'
-        elif expression in [ZoidsteinExpression.raise_eyebrows, ZoidsteinExpression.frown]:
+        elif expression in [ZoidExpression.frown]:
             joint_name = 'brow_joint'
 
         negative = True
-        if expression in [ZoidsteinExpression.smile, ZoidsteinExpression.open_mouth, ZoidsteinExpression.raise_eyebrows]:
+        if expression in [ZoidExpression.smile, ZoidExpression.open_mouth]:
             negative = False
 
         response = self.motor_range_srv(joint_name)
@@ -78,12 +81,15 @@ class ZoidsteinExpressionServer(object):
         msg = MotorCommand()
         msg.joint_name = joint_name
 
-        if negative:
-            msg.position = interpolate(intensity, 0.0, 1.0, 0.0, response.min)
-        else:
-            msg.position = interpolate(intensity, 0.0, 1.0, 0.0, response.max)
+        min_range = min([response.min, response.max])
+        max_range = max([response.min, response.max])
 
-        msg.speed = speed
+        if negative:
+            msg.position = interpolate(intensity, 0.0, 1.0, 0.0, min_range)
+        else:
+            msg.position = interpolate(intensity, 0.0, 1.0, 0.0, max_range)
+
+        msg.speed = interpolate(speed, 0.0, 1.0, 0.0, 0.5)
         msg.acceleration = interpolate(speed, 0.0, 1.0, 0.0, 0.4)
 
         start = time.time()
