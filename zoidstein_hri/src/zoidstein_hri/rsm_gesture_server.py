@@ -22,17 +22,17 @@ class RSMGestureActionServer(GestureActionServer):
     serialPort = None
 
     def __init__(self):
+        self.rsm_serial_node = RSMSerialNode()
         GestureActionServer.__init__(self, ZoidGesture)
         self.gesture_handle_lookup = {}
         self.motion_proxy = None
-
 
     def gesture_finished(self, goal_handle):
         super(RSMGestureActionServer, self).gesture_finished(goal_handle)
         self.remove_gesture_handle(goal_handle)
 
     def start_gesture(self, goal_handle):
-        self.rsm_serial_node = RSMSerialNode()
+        #self.rsm_serial_node = RSMSerialNode()
         goal = goal_handle.get_goal()
         goal_duration = self.get_goal_duration(goal_handle)
 
@@ -49,11 +49,11 @@ class RSMGestureActionServer(GestureActionServer):
         else:
             self.action_server.set_aborted()
 
-    def get_goal_duration(self, goal_handle):
-        return {
-            'a': 1,
-            'b': 2,
-            }.get(goal_handle, 9)
+    # def get_goal_duration(self, goal_handle):
+    #     return {
+    #         'a': 1,
+    #         'b': 2,
+    #         }.get(goal_handle, 9)
 
     def get_gesture_handle(self, goal_handle):
         return self.gesture_handle_lookup[goal_handle.get_goal_id().id]
@@ -63,6 +63,9 @@ class RSMGestureActionServer(GestureActionServer):
 
     def remove_gesture_handle(self, goal_handle):
         self.gesture_handle_lookup.pop(goal_handle.get_goal_id().id)
+
+    def __exit__(self, type, value, traceback):
+        self.rsm_serial_node.close()
 
 if __name__ == '__main__':
     rospy.init_node('gesture_action_server')

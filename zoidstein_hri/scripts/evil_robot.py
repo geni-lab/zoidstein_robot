@@ -1,7 +1,7 @@
 import rospy
 import random
 from hri_api.entities import Person, World, Saliency
-from zoidstein_hri.zoidstein import Zoidstein, ZoidExpression, ZoidGesture
+from zoidstein_hri.zoidstein import Zoidstein, ZoidExpression, ZoidGestureData
 from hri_api.query import Query
 import time
 
@@ -18,7 +18,6 @@ time.sleep(5)
 #robot.say("Hi, I'm Zoidstein! Hahahahahahaha")
 
 i = 0
-
 
 robot.expression(ZoidExpression.smile, 1.0)
 
@@ -40,9 +39,9 @@ time.sleep(1)
 #
 # time.sleep(1)
 
-robot.gesture(ZoidGesture.BConDance)
+robot.gesture(ZoidGestureData.HeadUpDown)
 
-robot.expression(ZoidExpression.smile, 1.0)
+robot.expression( ZoidExpression.smile, 1.0)
 time.sleep(2)
 while i < 5000:
     person = random.choice(people)
