@@ -28,7 +28,7 @@
 
 __author__ = 'Alex van der Peet, Jamie Diprose'
 
-from hri_api.entities import Robot, IExpression, IGesture
+from hri_api.entities import Robot, IGesture
 
 
 class Gesture(IGesture):
