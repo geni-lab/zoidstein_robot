@@ -26,34 +26,44 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-__author__ = 'Alex van der Peet'
+__author__ = 'Alex van der Peet, James Diprose'
 
-
-import serial
+from hri_framework import IGestureActionServer
+from zoidstein_hri.zoidstein import Gesture
+from rsm_serial_node import RSMSerialNode
+from threading import Timer
 import rospy
 
 
-class RSMSerialNode:
+class ZoidsteinGestureActionServer(IGestureActionServer):
 
     def __init__(self):
-        self.serialPort = None
+        super(ZoidsteinGestureActionServer, self).__init__(Gesture)
+        self.rsm_serial_node = RSMSerialNode()
 
-    def open(self):
-        self.serialPort = serial.Serial('/dev/ttyUSB0', 115200)
+    def start(self):
+        self.rsm_serial_node.open()
+        super(ZoidsteinGestureActionServer, self).start()
 
-    def testSerial(self):
-        self.serialPort.write('usr/bin/robot/scripts/DefaultBcon.sh 10\n')
-        # x = self.serialPort.read()
-        # s = self.serialPort.read(10)
-        # line = self.serialPort.readline()
-        #self.serialPort.close()
+    def start_gesture(self, goal_handle):
+        goal = goal_handle.get_goal()
 
-    def executeScript(self, script):
-        #self.serialPort = serial.Serial('/dev/ttyUSB0', 115200)
-        self.serialPort.write(script + "\n")
-        #self.serialPort.close()
+        if self.has_gesture(goal.gesture):
+            gesture = Gesture[goal.gesture]
 
-    def close(self):
-        self.serialPort.close()
+            bodycon_script = gesture.default_duration()
+            self.rsm_serial_node.executeScript(bodycon_script)
 
+            default_duration = Gesture.default_duration(gesture)
+            self.set_succceded_on_timeout(default_duration, goal_handle)
+
+        else:
+            self.set_aborted(goal_handle)
+
+    def cancel_gesture(self, goal_handle):
+        super(ZoidsteinGestureActionServer, self).cancel_gesture(goal_handle)
+        rospy.logwarn('Not implemented, need to find a way to stop RSM from performing action')
+
+    def __exit__(self, type, value, traceback):
+        self.rsm_serial_node.close()
 

@@ -1,7 +1,7 @@
 import rospy
 import random
 from hri_api.entities import Person, World, Saliency
-from zoidstein_hri.zoidstein import Zoidstein, ZoidExpression, ZoidGestureData
+from zoidstein_hri.zoidstein import Zoidstein, Expression, ZoidGestureData
 from hri_api.query import Query
 import time
 
@@ -19,7 +19,7 @@ time.sleep(5)
 
 i = 0
 
-robot.expression(ZoidExpression.smile, 1.0)
+robot.expression(Expression.smile, 1.0)
 
 time.sleep(1)
 
@@ -41,7 +41,7 @@ time.sleep(1)
 
 robot.gesture(ZoidGestureData.HeadUpDown)
 
-robot.expression( ZoidExpression.smile, 1.0)
+robot.expression( Expression.smile, 1.0)
 time.sleep(2)
 while i < 5000:
     person = random.choice(people)
@@ -54,16 +54,16 @@ while i < 5000:
         utterance = random.randrange(1, 5)
 
         if (utterance == 1):
-            robot.expression(ZoidExpression.smile,1.0)
-            robot.say("I sound like a woman. Give me a man's voice.")
+            robot.expression(Expression.smile,1.0)
+            robot.say("I sound like a woman. Give me a man's voice.") # Haha! Good going :D
         elif (utterance == 2):
-            robot.expression(ZoidExpression.frown)
+            robot.expression(Expression.frown)
             robot.say("No more I love you")
         elif (utterance == 3):
-            robot.expression(ZoidExpression.smile)
+            robot.expression(Expression.smile)
             robot.say("I'll only love you till the money comes")
         else:
-            robot.expression(ZoidExpression.frown)
+            robot.expression(Expression.frown)
             robot.say("I don't think I like you better")
 
 
@@ -91,7 +91,7 @@ while i < 5000:
 
 
 rospy.loginfo('hello')
-robot.show_expression_and_wait(ZoidExpression.frown, 0.0) #TODO: show expression without waiting doesn't work
-robot.show_expression_and_wait(ZoidExpression.smile, 0.0)
+robot.show_expression_and_wait(Expression.frown, 0.0) #TODO: show expression without waiting doesn't work
+robot.show_expression_and_wait(Expression.smile, 0.0)
 
 

@@ -26,34 +26,11 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-__author__ = 'Alex van der Peet'
-
-
-import serial
 import rospy
+from hri_common.drivers import JointStatePublisher
 
-
-class RSMSerialNode:
-
-    def __init__(self):
-        self.serialPort = None
-
-    def open(self):
-        self.serialPort = serial.Serial('/dev/ttyUSB0', 115200)
-
-    def testSerial(self):
-        self.serialPort.write('usr/bin/robot/scripts/DefaultBcon.sh 10\n')
-        # x = self.serialPort.read()
-        # s = self.serialPort.read(10)
-        # line = self.serialPort.readline()
-        #self.serialPort.close()
-
-    def executeScript(self, script):
-        #self.serialPort = serial.Serial('/dev/ttyUSB0', 115200)
-        self.serialPort.write(script + "\n")
-        #self.serialPort.close()
-
-    def close(self):
-        self.serialPort.close()
-
-
+rospy.init_node('joint_state_publisher')
+pololu_motor_names = ['neck_yaw_joint', 'camera_joint', 'neck_pitch_joint', 'jaw_joint', 'smile_joint', 'brow_joint']
+joint_pub = JointStatePublisher(pololu_motor_names, dyn_joint_names=None)
+joint_pub.start()
+rospy.spin()

@@ -26,34 +26,20 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-__author__ = 'Alex van der Peet'
+from zoidstein_hri import Zoidstein, Expression
 
 
-import serial
-import rospy
+robot = Zoidstein()
 
+robot.expression_and_wait(Expression.Smile, duration=1.0)
+robot.expression_and_wait(Expression.Smile, intensity=0.0, duration=1.0)
 
-class RSMSerialNode:
+robot.expression_and_wait(Expression.Frown, duration=1.0)
+robot.expression_and_wait(Expression.Frown, intensity=0.0, duration=1.0)
 
-    def __init__(self):
-        self.serialPort = None
+robot.expression_and_wait(Expression.FrownMouth, duration=1.0)
+robot.expression_and_wait(Expression.FrownMouth, intensity=0.0, duration=1.0)
 
-    def open(self):
-        self.serialPort = serial.Serial('/dev/ttyUSB0', 115200)
-
-    def testSerial(self):
-        self.serialPort.write('usr/bin/robot/scripts/DefaultBcon.sh 10\n')
-        # x = self.serialPort.read()
-        # s = self.serialPort.read(10)
-        # line = self.serialPort.readline()
-        #self.serialPort.close()
-
-    def executeScript(self, script):
-        #self.serialPort = serial.Serial('/dev/ttyUSB0', 115200)
-        self.serialPort.write(script + "\n")
-        #self.serialPort.close()
-
-    def close(self):
-        self.serialPort.close()
-
+robot.expression_and_wait(Expression.OpenMouth, duration=1.0)
+robot.expression_and_wait(Expression.OpenMouth, intensity=0.0, duration=1.0)
 

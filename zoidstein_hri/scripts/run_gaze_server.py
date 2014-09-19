@@ -26,34 +26,15 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-__author__ = 'Alex van der Peet'
-
-
-import serial
 import rospy
+from hri_common.hri_framework import BlenderGazeServer
 
 
-class RSMSerialNode:
+controller_name = 'zoidstein_gaze_controller'
+target_name = 'gaze_target'
 
-    def __init__(self):
-        self.serialPort = None
-
-    def open(self):
-        self.serialPort = serial.Serial('/dev/ttyUSB0', 115200)
-
-    def testSerial(self):
-        self.serialPort.write('usr/bin/robot/scripts/DefaultBcon.sh 10\n')
-        # x = self.serialPort.read()
-        # s = self.serialPort.read(10)
-        # line = self.serialPort.readline()
-        #self.serialPort.close()
-
-    def executeScript(self, script):
-        #self.serialPort = serial.Serial('/dev/ttyUSB0', 115200)
-        self.serialPort.write(script + "\n")
-        #self.serialPort.close()
-
-    def close(self):
-        self.serialPort.close()
-
+rospy.init_node('gaze_server')
+server = BlenderGazeServer(controller_name, target_name)
+server.start()
+rospy.spin()
 

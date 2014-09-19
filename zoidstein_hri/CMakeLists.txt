@@ -126,12 +126,15 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 install(PROGRAMS
-   scripts/zoidstein_expression_server.py
-   scripts/zoidstein_gaze_server.py
-   scripts/zoidstein_hri_examples.py
-   scripts/zoidstein_lip_sync.py
-   scripts/zoidstein_tts_server.py
-   scripts/zoidstein_perception_synthesizer.py
+   scripts/evil_robot.py
+   scripts/hri_expression_examples.py
+   scripts/hri_gaze_examples.py
+   scripts/hri_gesture_examples.py
+   scripts/hri_say_examples.py
+   scripts/run_expression_server.py
+   scripts/run_gaze_server.py
+   scripts/run_gesture_server.py
+   scripts/run_tts_server.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
