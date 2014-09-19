@@ -31,6 +31,8 @@ class LipSync():
         self.cmd.speed = 1.0
         self.cmd.acceleration = 1.0
 
+        # Add some comment here.
+
         # Get motor range
         rospy.loginfo('Waiting for pololu/motor_range service...')
         self.motor_range_srv.wait_for_service()
