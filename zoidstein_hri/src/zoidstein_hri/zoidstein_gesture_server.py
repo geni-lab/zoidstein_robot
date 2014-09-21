@@ -48,14 +48,14 @@ class ZoidsteinGestureActionServer(IGestureActionServer):
     def start_gesture(self, goal_handle):
         goal = goal_handle.get_goal()
 
-        if self.has_gesture(goal.gesture):
+        if self.is_valid_gesture(goal.gesture):
             gesture = Gesture[goal.gesture]
 
             bodycon_script = gesture.default_duration()
             self.rsm_serial_node.executeScript(bodycon_script)
 
             default_duration = Gesture.default_duration(gesture)
-            self.set_succceded_on_timeout(default_duration, goal_handle)
+            self.succeed_on_timeout(goal_handle, default_duration)
 
         else:
             self.set_aborted(goal_handle)

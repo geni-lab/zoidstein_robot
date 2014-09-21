@@ -27,14 +27,14 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import rospy
-from hri_common.hri_framework import BlenderGazeServer
+from hri_common.hri_framework import BlenderTargetServer
 
 
 controller_name = 'zoidstein_gaze_controller'
 target_name = 'gaze_target'
 
 rospy.init_node('gaze_server')
-server = BlenderGazeServer(controller_name, target_name)
+server = BlenderTargetServer(controller_name, target_name)
 server.start()
 rospy.spin()
 
