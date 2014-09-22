@@ -7,9 +7,9 @@ zoidstein_gaze_controller:
   frame_id: base_link
   joints:
     neck_yaw_joint:
-      module: zoidstein_driver
+      module: hri_common
       class: PololuJoint
     neck_pitch_joint:
-      module: zoidstein_driver
+      module: hri_common
       class: PololuJoint
 

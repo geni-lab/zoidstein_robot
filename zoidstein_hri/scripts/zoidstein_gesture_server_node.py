@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Copyright (c) 2014, OpenCog Foundation
 # All rights reserved.
 #
@@ -26,9 +27,50 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import rospy
-from hri_common.drivers import LipSync
+__author__ = 'Alex van der Peet, James Diprose'
 
-rospy.init_node('lip_sync')
-lip_sync = LipSync()
-rospy.spin()
+from hri_framework import IGestureActionServer
+from zoidstein_hri.zoidstein import Gesture
+from rsm_serial_node import RSMSerialNode
+from threading import Timer
+import rospy
+
+
+class ZoidsteinGestureActionServer(IGestureActionServer):
+
+    def __init__(self):
+        super(ZoidsteinGestureActionServer, self).__init__(Gesture)
+        self.rsm_serial_node = RSMSerialNode()
+
+    def start(self):
+        self.rsm_serial_node.open()
+        super(ZoidsteinGestureActionServer, self).start()
+
+    def start_gesture(self, goal_handle):
+        goal = goal_handle.get_goal()
+
+        if self.is_valid_gesture(goal.gesture):
+            gesture = Gesture[goal.gesture]
+
+            bodycon_script = gesture.default_duration()
+            self.rsm_serial_node.executeScript(bodycon_script)
+
+            default_duration = Gesture.default_duration(gesture)
+            self.succeed_on_timeout(goal_handle, default_duration)
+
+        else:
+            self.set_aborted(goal_handle)
+
+    def cancel_gesture(self, goal_handle):
+        super(ZoidsteinGestureActionServer, self).cancel_gesture(goal_handle)
+        rospy.logwarn('Not implemented, need to find a way to stop RSM from performing action')
+
+    def __exit__(self, type, value, traceback):
+        self.rsm_serial_node.close()
+
+
+if __name__ == "__main__":
+    rospy.init_node('gesture_action_server')
+    gesture_server = ZoidsteinGestureActionServer()
+    gesture_server.start()
+    rospy.spin()

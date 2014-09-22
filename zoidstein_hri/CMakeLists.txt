@@ -131,10 +131,7 @@ install(PROGRAMS
    scripts/hri_gaze_examples.py
    scripts/hri_gesture_examples.py
    scripts/hri_say_examples.py
-   scripts/run_expression_server.py
-   scripts/run_gaze_server.py
-   scripts/run_gesture_server.py
-   scripts/run_tts_server.py
+   scripts/zoidstein_gesture_server_node.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

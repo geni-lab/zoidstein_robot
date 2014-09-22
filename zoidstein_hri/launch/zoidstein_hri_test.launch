@@ -1,44 +1,45 @@
 <launch>
-    <param name="armature_name" value="Armature" />
 
     <!-- Drivers -->
-    <node pkg="ros_pololu_servo" type="ros_pololu_servo_node" name="ros_pololu_servo_node" output="screen">
-        <param name="pololu_motors_yaml" value="$(find zoidstein_driver)/launch/zoidstein_pololu_motors.yaml" />
-        <param name="port_name" value="/dev/ttyACM0" />
-        <param name="baud_rate" value="115200" />
-        <param name="rate_hz" value="10" />
-    </node>
+    <!--<node pkg="ros_pololu_servo" type="ros_pololu_servo_node" name="ros_pololu_servo_node" output="screen">-->
+        <!--<param name="pololu_motors_yaml" value="$(find zoidstein_driver)/launch/zoidstein_pololu_motors.yaml" />-->
+        <!--<param name="port_name" value="/dev/ttyACM0" />-->
+        <!--<param name="baud_rate" value="115200" />-->
+        <!--<param name="rate_hz" value="10" />-->
+    <!--</node>-->
 
     <param name="robot_description" command="$(find xacro)/xacro.py $(find zoidstein_description)/urdf/zoidstein_robot.urdf.xacro" />
     <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" />
-    <node pkg="zoidstein_driver" type="joint_state_publisher.py" name="joint_state_publisher" />
+    <node pkg="zoidstein_driver" type="joint_state_publisher_node.py" name="joint_state_publisher" />
 
+   <!-- Blender controllers -->
+    <param name="armature_name" value="Armature" />
+    <param name="blender_target_controllers" value="$(find zoidstein_driver)/launch/zoidstein_target_controllers.yaml" />
 
-    <!--<node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" >-->
-        <!--<param name="use_gui" value="true"/>-->
-    <!--</node>-->
+    <node pkg="ros_blender_bridge" type="run_target_controllers.py" name="blender_target_controllers" output="screen" />
 
-     <!--Controllers-->
-    <node pkg="ros_bge_bridge" type="run_bge_controllers.py" name="bge_controllers" output="screen">
-        <param name="bge_controllers_yaml" value="$(find zoidstein_driver)/config/zoidstein_bge_controllers.yaml" />
-    </node>
-
-    <node pkg="ros_bge_bridge" type="launch_blender" name="launch_blender" output="screen">
-        <param name="blend_file" value="$(find zoidstein_description)/blender/zoidstein.blend" />
-        <param name="use_game_engine" value="true" />
+    <node pkg="ros_blender_bridge" type="launch_blender" name="launch_blender" output="screen">
+        <param name="blend_file" value="$(find nao_hri)/launch/nao.blend" />
+        <param name="use_game_engine" value="false" />
+        <param name="python_script" value="$(find ros_blender_bridge)/scripts/run_blender_node.py" />
     </node>
 
     <!-- HRI action servers -->
-    <node pkg="zoidstein_hri" type="zoidstein_gaze_server.py" name="gaze_server" output="screen">
+    <node pkg="hri_common" type="blender_target_server_node.py" name="gaze_action_server" output="screen">
         <param name="origin_frame" value="base_link" />
-        <param name="gaze_frame" value="gaze" />
+        <param name="action_server_name" value="gaze" />
+        <param name="controller_name" value="zoidstein_gaze_controller" />
+        <param name="end_effector_frame" value="gaze" />
+        <param name="success_distance" value="0.15" />
+        <param name="axes" value="yz" />
+        <param name="target_name" value="gaze_target" />
         <param name="rate" value="10" />
     </node>
 
-    <node pkg="zoidstein_hri" type="zoidstein_lip_sync.py" name="zoidstein_lip_sync" output="screen"/>
-    <node pkg="zoidstein_hri" type="zoidstein_perception_synthesizer.py" name="zoidstein_perception_synthesizer" output="screen"/>
-    <node pkg="zoidstein_hri" type="zoidstein_expression_server.py" name="zoidstein_expression_server" output="screen"/>
-    <node pkg="zoidstein_hri" type="zoidstein_tts_server.py" name="zoidstein_tts_server" output="screen"/>
+    <node pkg="hri_common" type="mini_head_lip_sync_node.py" name="lip_sync" output="screen"/>
+    <node pkg="hri_common" type="mini_head_expression_server_node.py" name="expression_server" output="screen"/>
+    <node pkg="hri_common" type="itf_tts_server_node.py" name="tts_server" output="screen"/>
+
 
     <!-- Fake people -->
     <node pkg="tf" type="static_transform_publisher" name="base_link_to_map" args="0 0 1 0 0 0 /map /base_link 20" />

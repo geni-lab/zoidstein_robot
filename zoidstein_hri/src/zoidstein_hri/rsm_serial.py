@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Copyright (c) 2014, OpenCog Foundation
 # All rights reserved.
 #
@@ -26,10 +27,34 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import rospy
-from zoidstein_hri import ZoidsteinGestureActionServer
+__author__ = 'Alex van der Peet'
 
-rospy.init_node('gesture_action_server')
-gesture_server = ZoidsteinGestureActionServer()
-gesture_server.start()
-rospy.spin()
+
+import serial
+import rospy
+
+
+class RSMSerialNode:
+
+    def __init__(self):
+        self.serialPort = None
+
+    def open(self):
+        self.serialPort = serial.Serial('/dev/ttyUSB0', 115200)
+
+    def testSerial(self):
+        self.serialPort.write('usr/bin/robot/scripts/DefaultBcon.sh 10\n')
+        # x = self.serialPort.read()
+        # s = self.serialPort.read(10)
+        # line = self.serialPort.readline()
+        #self.serialPort.close()
+
+    def executeScript(self, script):
+        #self.serialPort = serial.Serial('/dev/ttyUSB0', 115200)
+        self.serialPort.write(script + "\n")
+        #self.serialPort.close()
+
+    def close(self):
+        self.serialPort.close()
+
+

@@ -126,8 +126,7 @@ add_executable(camera_pitch_node src/camera_pitch_node.cpp)
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 install(PROGRAMS
-   scripts/run_joint_state_publisher.py
-   scripts/run_lip_sync.py
+   scripts/joint_state_publisher_node.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

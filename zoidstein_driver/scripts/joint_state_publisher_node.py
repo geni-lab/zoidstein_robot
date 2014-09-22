@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Copyright (c) 2014, OpenCog Foundation
 # All rights reserved.
 #
@@ -26,3 +27,11 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import rospy
+from hri_common import JointStatePublisher
+
+rospy.init_node('joint_state_publisher')
+pololu_motor_names = ['neck_yaw_joint', 'camera_joint', 'neck_pitch_joint', 'jaw_joint', 'smile_joint', 'brow_joint']
+joint_pub = JointStatePublisher(pololu_motor_names, dyn_joint_names=None)
+joint_pub.start()
+rospy.spin()

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import rospy
 import random
 from hri_api.entities import Person, World, Saliency
