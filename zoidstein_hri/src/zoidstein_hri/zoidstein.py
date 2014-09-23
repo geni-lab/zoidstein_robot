@@ -30,126 +30,68 @@
 __author__ = 'Alex van der Peet, Jamie Diprose'
 
 from hri_api.entities import Robot, IGesture
+from hri_common import IExpression
 
 
 class Gesture(IGesture):
 
-    LeftArm = 1
-    RightArm = 2
-    LeftHand = 3
-    RightHand = 4
-    BodyLeanForwardBackward = 5
-    BodyWaistTwist = 6
-    BodyTiltLeftRight = 7
-    LeftLegForwardBack = 8
-    RightLegForwardBack = 9
-    WalkForward1 = 10
-    WalkForward2 = 11
-    WalkForward3 = 12
-    WalkReverse1 = 13
-    WalkReverse2 = 14
-    WalkRightTurnInPlace = 15
-    WalkLeftTurnInPlace = 16
-    WalkForward4 = 17
-    WalkForward5 = 18
-    RightArmDrop = 19
-    LeftArmDrop = 20
-    RightArmGive = 21
-    LeftArmGive = 22
-    RightArmGrab = 23
-    LeftArmGrab = 24
-    RightArmRoll = 25
-    LeftArmRoll = 26
-    RightArmThrow = 27
-    LeftArmThrow = 28
-    RightArmChop = 29
-    LeftArmChop = 30
-    RightFootKick = 31
-    LeftFootKick = 32
-    RightArmPush = 33
-    LeftArmPush = 34
-    Dance = 35
-    LieDown = 36
-    SitUp = 37
-    StandUp = 38
-    WaveHands = 39
-    Flinch = 40
-    Introduction = 41
-    RightArmHighPickup = 42
-    leftArmHighPickup = 43
-    RightArmLowPickup = 44
-    LeftArmLowPickup = 45
-    DefaultPosition = 46
-    DefaultReset = 47
-    RightArmWave = 48
-    RightHandShake = 49
-    LeftArmWave = 50
-    LeftHandShake = 51
+    LeftArm = (3, "/usr/bin/robot/scripts/MotorRel.sh 03 13 08")
+    RightArm = (3, "/usr/bin/robot/scripts/MotorRel.sh 04 13 02")
+    LeftHand = (3, "usr/bin/robot/scripts/MotorRel.sh 05 03 08")
+    RightHand = (3, "/usr/bin/robot/scripts/MotorRel.sh 06 03 0a")
+    BodyLeanForwardBackward = (3, "/usr/bin/robot/scripts/MotorRel.sh 07 03 08")
+    BodyWaistTwist = (3, "/usr/bin/robot/scripts/MotorRel.sh 08 13 08")
+    BodyTiltLeftRight = (3, "/usr/bin/robot/scripts/MotorRel.sh 09 03 08")
+    LeftLegForwardBack = (3,  "/usr/bin/robot/scripts/MotorRel.sh 0a 03 08")
+    RightLegForwardBack = (3, "/usr/bin/robot/scripts/MotorRel.sh 0b 03 08")
+    WalkForward1 = (3, "/usr/bin/robot/scripts/BasicMove.sh 01 2")
+    WalkForward2 = (3, "/usr/bin/robot/scripts/BasicMove.sh 02 5")
+    WalkForward3 = (3, "/usr/bin/robot/scripts/BasicMove.sh 03 12")
+    WalkReverse1 = (3, "/usr/bin/robot/scripts/BasicMove.sh 04 2")
+    WalkReverse2 = (3, "/usr/bin/robot/scripts/BasicMove.sh 05 2")
+    WalkRightTurnInPlace = (3, "/usr/bin/robot/scripts/BasicMove.sh 06 2")
+    WalkLeftTurnInPlace = (3, "/usr/bin/robot/scripts/BasicMove.sh 07 2")
+    WalkForward4 = (3, "/usr/bin/robot/scripts/BasicMove.sh 08 2")
+    WalkForward5 = (3, "/usr/bin/robot/scripts/BasicMove.sh 09 2")
+    RightArmDrop = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 10")
+    LeftArmDrop = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 11")
+    RightArmGive = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 12")
+    LeftArmGive = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 13")
+    RightArmGrab = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 14")
+    LeftArmGrab = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 15")
+    RightArmRoll = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 16")
+    LeftArmRoll = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 17")
+    RightArmThrow = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 18")
+    LeftArmThrow = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 19")
+    RightArmChop = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 1a")
+    LeftArmChop = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 1b")
+    RightFootKick = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 1c")
+    LeftFootKick = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 1d")
+    RightArmPush = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 1e")
+    LeftArmPush = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 1f")
+    Dance = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 20")
+    LieDown = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 21")
+    SitUp = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 22")
+    StandUp = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 23")
+    WaveHands = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 27")
+    Flinch = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 28")
+    Introduction = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 2a")
+    RightArmHighPickup = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 2b")
+    leftArmHighPickup = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 2c")
+    RightArmLowPickup = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 2d")
+    LeftArmLowPickup = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 2e")
+    DefaultPosition = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 2f")
+    DefaultReset = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 30")
+    RightArmWave = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 39")
+    RightHandShake = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 3a")
+    LeftArmWave = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 3b")
+    LeftHandShake = (3, "/usr/bin/robot/scripts/DefaultBcon.sh 3c")
 
-    def __init__(self, *args):
-        IGesture.__init__(*args)
-
-        self.data = [(Gesture.left_arm, "/usr/bin/robot/scripts/MotorRel.sh 03 13 08", 3),
-        (Gesture.RightArm, "/usr/bin/robot/scripts/MotorRel.sh 04 13 02", 3),
-        (Gesture.LeftHand, "usr/bin/robot/scripts/MotorRel.sh 05 03 08", 3),
-        (Gesture.RightHand, "/usr/bin/robot/scripts/MotorRel.sh 06 03 0a", 3),
-        (Gesture.BodyLeanForwardBackward, "/usr/bin/robot/scripts/MotorRel.sh 07 03 08", 3),
-        (Gesture.BodyWaistTwist, "/usr/bin/robot/scripts/MotorRel.sh 08 13 08", 3),
-        (Gesture.BodyTiltLeftRight, "/usr/bin/robot/scripts/MotorRel.sh 09 03 08", 3),
-        (Gesture.LeftLegForwardBack,  "/usr/bin/robot/scripts/MotorRel.sh 0a 03 08", 3),
-        (Gesture.RightLegForwardBack, "/usr/bin/robot/scripts/MotorRel.sh 0b 03 08", 3),
-        (Gesture.WalkForward1, "/usr/bin/robot/scripts/BasicMove.sh 01 2", 3),
-        (Gesture.WalkForward2, "/usr/bin/robot/scripts/BasicMove.sh 02 5", 3),
-        (Gesture.WalkForward3, "/usr/bin/robot/scripts/BasicMove.sh 03 12", 3),
-        (Gesture.WalkReverse1, "/usr/bin/robot/scripts/BasicMove.sh 04 2", 3),
-        (Gesture.WalkReverse2, "/usr/bin/robot/scripts/BasicMove.sh 05 2", 3),
-        (Gesture.WalkRightTurnInPlace, "/usr/bin/robot/scripts/BasicMove.sh 06 2", 3),
-        (Gesture.WalkLeftTurnInPlace, "/usr/bin/robot/scripts/BasicMove.sh 07 2", 3),
-        (Gesture.WalkForward4, "/usr/bin/robot/scripts/BasicMove.sh 08 2", 3),
-        (Gesture.WalkForward5, "/usr/bin/robot/scripts/BasicMove.sh 09 2", 3),
-        (Gesture.RightArmDrop, "/usr/bin/robot/scripts/DefaultBcon.sh 10", 3),
-        (Gesture.LeftArmDrop, "/usr/bin/robot/scripts/DefaultBcon.sh 11", 3),
-        (Gesture.RightArmGive, "/usr/bin/robot/scripts/DefaultBcon.sh 12", 3),
-        (Gesture.LeftArmGive, "/usr/bin/robot/scripts/DefaultBcon.sh 13", 3),
-        (Gesture.RightArmGrab, "/usr/bin/robot/scripts/DefaultBcon.sh 14", 3),
-        (Gesture.LeftArmGrab, "/usr/bin/robot/scripts/DefaultBcon.sh 15", 3),
-        (Gesture.RightArmRoll, "/usr/bin/robot/scripts/DefaultBcon.sh 16", 3),
-        (Gesture.LeftArmRoll, "/usr/bin/robot/scripts/DefaultBcon.sh 17", 3),
-        (Gesture.RightArmThrow, "/usr/bin/robot/scripts/DefaultBcon.sh 18", 3),
-        (Gesture.LeftArmThrow, "/usr/bin/robot/scripts/DefaultBcon.sh 19", 3),
-        (Gesture.RightArmChop, "/usr/bin/robot/scripts/DefaultBcon.sh 1a", 3),
-        (Gesture.LeftArmChop, "/usr/bin/robot/scripts/DefaultBcon.sh 1b", 3),
-        (Gesture.RightFootKick, "/usr/bin/robot/scripts/DefaultBcon.sh 1c", 3),
-        (Gesture.LeftFootKick, "/usr/bin/robot/scripts/DefaultBcon.sh 1d", 3),
-        (Gesture.RightArmPush, "/usr/bin/robot/scripts/DefaultBcon.sh 1e", 3),
-        (Gesture.LeftArmPush, "/usr/bin/robot/scripts/DefaultBcon.sh 1f", 3),
-        (Gesture.Dance, "/usr/bin/robot/scripts/DefaultBcon.sh 20", 3),
-        (Gesture.LieDown, "/usr/bin/robot/scripts/DefaultBcon.sh 21", 3),
-        (Gesture.SitUp, "/usr/bin/robot/scripts/DefaultBcon.sh 22", 3),
-        (Gesture.StandUp, "/usr/bin/robot/scripts/DefaultBcon.sh 23", 3),
-        (Gesture.WaveHands, "/usr/bin/robot/scripts/DefaultBcon.sh 27", 3),
-        (Gesture.Flinch, "/usr/bin/robot/scripts/DefaultBcon.sh 28", 3),
-        (Gesture.Introduction, "/usr/bin/robot/scripts/DefaultBcon.sh 2a", 3),
-        (Gesture.RightArmHighPickup, "/usr/bin/robot/scripts/DefaultBcon.sh 2b", 3),
-        (Gesture.leftArmHighPickup, "/usr/bin/robot/scripts/DefaultBcon.sh 2c", 3),
-        (Gesture.RightArmLowPickup, "/usr/bin/robot/scripts/DefaultBcon.sh 2d", 3),
-        (Gesture.LeftArmLowPickup, "/usr/bin/robot/scripts/DefaultBcon.sh 2e", 3),
-        (Gesture.DefaultPosition, "/usr/bin/robot/scripts/DefaultBcon.sh 2f", 3),
-        (Gesture.DefaultReset, "/usr/bin/robot/scripts/DefaultBcon.sh 30", 3),
-        (Gesture.RightArmWave, "/usr/bin/robot/scripts/DefaultBcon.sh 39", 3),
-        (Gesture.RightHandShake, "/usr/bin/robot/scripts/DefaultBcon.sh 3a", 3),
-        (Gesture.LeftArmWave, "/usr/bin/robot/scripts/DefaultBcon.sh 3b", 3),
-        (Gesture.LeftHandShake, "/usr/bin/robot/scripts/DefaultBcon.sh 3c", 3)]
-
-    def bodycon_script(self):
-        gesture_data = self.get_data()
-        return gesture_data[1]
-
-    def default_duration(self):
-        gesture_data = self.get_data()
-        return gesture_data[2]
+    def __init__(self, default_duration, bcon_script):
+        IGesture.__init__(self, default_duration)
+        self.bcon_script = bcon_script
 
 
 class Zoidstein(Robot):
     def __init__(self):
-        Robot.__init__(self, Expression, Gesture)
+        Robot.__init__(self, 3, Expression, Gesture)

@@ -31,7 +31,7 @@ __author__ = 'Alex van der Peet, James Diprose'
 
 from hri_framework import IGestureActionServer
 from zoidstein_hri.zoidstein import Gesture
-from rsm_serial_node import RSMSerialNode
+from zoidstein_hri import RSMSerialNode
 from threading import Timer
 import rospy
 
@@ -51,18 +51,21 @@ class ZoidsteinGestureActionServer(IGestureActionServer):
 
         if self.is_valid_gesture(goal.gesture):
             gesture = Gesture[goal.gesture]
+            duration = goal.duration
 
-            bodycon_script = gesture.default_duration()
-            self.rsm_serial_node.executeScript(bodycon_script)
+            if duration == -1:
+                duration = Gesture.default_duration
 
-            default_duration = Gesture.default_duration(gesture)
-            self.succeed_on_timeout(goal_handle, default_duration)
+            self.rsm_serial_node.executeScript(gesture.bcon_script)
+            timer = Timer(duration, self.set_succeeded, [goal_handle])
+            timer.start()
 
         else:
             self.set_aborted(goal_handle)
 
     def cancel_gesture(self, goal_handle):
-        super(ZoidsteinGestureActionServer, self).cancel_gesture(goal_handle)
+        #TODO: stop RSM from performing action
+        #TODO: stop timer for this gesture
         rospy.logwarn('Not implemented, need to find a way to stop RSM from performing action')
 
     def __exit__(self, type, value, traceback):
