@@ -30,7 +30,7 @@
 __author__ = 'Alex van der Peet, Jamie Diprose'
 
 from hri_api.entities import Robot, IGesture
-from hri_common import IExpression
+from hri_common import Expression
 
 
 class Gesture(IGesture):
@@ -94,4 +94,4 @@ class Gesture(IGesture):
 
 class Zoidstein(Robot):
     def __init__(self):
-        Robot.__init__(self, 3, Expression, Gesture)
+        Robot.__init__(self, 3, Expression)

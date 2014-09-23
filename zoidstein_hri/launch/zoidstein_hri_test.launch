@@ -19,7 +19,7 @@
     <node pkg="ros_blender_bridge" type="run_target_controllers.py" name="blender_target_controllers" output="screen" />
 
     <node pkg="ros_blender_bridge" type="launch_blender" name="launch_blender" output="screen">
-        <param name="blend_file" value="$(find nao_hri)/launch/nao.blend" />
+        <param name="blend_file" value="$(find zoidstein_description)/blender/zoidstein.blend" />
         <param name="use_game_engine" value="false" />
         <param name="python_script" value="$(find ros_blender_bridge)/scripts/run_blender_node.py" />
     </node>
