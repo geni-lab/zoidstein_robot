@@ -30,10 +30,15 @@
 __author__ = 'Alex van der Peet, James Diprose'
 
 from hri_framework import IGestureActionServer
-from zoidstein_hri.zoidstein import Gesture
+from zoidstein_hri.zoidstein import Gesture, AnimationType
 from zoidstein_hri import RSMSerialNode
 from threading import Timer
 import rospy
+import actionlib
+from ros
+from ros_pololu_servo.msg import pololu_trajectoryAction, pololu_trajectoryGoal
+from trajectory_msgs.msg import JointTrajectory
+from ros_blender_bridge.srv import GetJointTrajectory
 
 
 class ZoidsteinGestureActionServer(IGestureActionServer):
@@ -41,6 +46,9 @@ class ZoidsteinGestureActionServer(IGestureActionServer):
     def __init__(self):
         super(ZoidsteinGestureActionServer, self).__init__(Gesture)
         self.rsm_serial_node = RSMSerialNode()
+        self.traj_action_client = actionlib.SimpleActionClient('pololu_trajectory_action_server', pololu_trajectoryAction)
+        self.blender_traj_srv = rospy.ServiceProxy('get_joint_trajectory', GetJointTrajectory)
+        self.keyframe_gh = None
 
     def start(self):
         self.rsm_serial_node.open()
@@ -56,12 +64,27 @@ class ZoidsteinGestureActionServer(IGestureActionServer):
             if duration == -1:
                 duration = Gesture.default_duration
 
-            self.rsm_serial_node.executeScript(gesture.bcon_script)
-            timer = Timer(duration, self.set_succeeded, [goal_handle])
-            timer.start()
+            if gesture.animation_type is AnimationType.BodyCon:
+                self.rsm_serial_node.executeScript(gesture.bcon_script)
+                timer = Timer(duration, self.set_succeeded, [goal_handle])
+                timer.start()
+
+            elif gesture.animation_type is AnimationType.Keyframe:
+                rospy.loginfo('Fetching trajectory msg from Blender')
+                resp = self.blender_traj_srv(gesture.name)
+
+                rospy.loginfo('Sending trajectory message to pololu joint trajectory server')
+                goal = pololu_trajectoryGoal()
+                goal.joint_trajectory = resp.joint_trajectory
+                self.keyframe_gh = goal_handle
+                self.traj_action_client.send_goal(goal, done_cb=self.keyframe_animation_finished)
 
         else:
             self.set_aborted(goal_handle)
+
+    def keyframe_animation_finished(self):
+        self.set_succeeded(self.keyframe_gh)
+        self.keyframe_gh = None
 
     def cancel_gesture(self, goal_handle):
         #TODO: stop RSM from performing action
