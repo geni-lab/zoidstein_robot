@@ -26,8 +26,11 @@
         <param name="python_script" value="$(find ros_blender_bridge)/scripts/run_blender_node.py" />
     </node>
 
-
-    <node pkg="ros_blender_bridge" type="run_joint_trajectory_server.py" name="blender_joint_traj_server" output="screen" />
+    <node pkg="ros_blender_bridge" type="launch_blender" name="launch_blender" output="screen">
+        <param name="blend_file" value="$(find run_joint_trajectory_server)/launch/zoidstein.blend" />
+        <param name="use_game_engine" value="false" />
+        <param name="python_script" value="$(find ros_blender_bridge)/scripts/run_joint_trajectory_server.py" />
+    </node>
 
     <!-- HRI action servers -->
     <!--<node pkg="hri_common" type="blender_target_server_node.py" name="gaze_action_server" output="screen">-->
