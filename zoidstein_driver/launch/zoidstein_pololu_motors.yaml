@@ -3,8 +3,8 @@
 neck_yaw_joint:
   pololu_id: 12
   motor_id: 5
-  min: 1000
-  init: 1500
+  min: 992
+  init: 1525
   max: 2000
   reverse: false
   calibration:
@@ -16,35 +16,34 @@ neck_yaw_joint:
 camera_joint:
   pololu_id: 12
   motor_id: 6
-  min: 1000
-  init: 1296
-  max: 1840
+  min: 1075
+  init: 1527
+  max: 2000
   reverse: true
   calibration:
     min_pulse: 1000
-    min_angle: -50
+    min_angle: -45
     max_pulse: 2000
     max_angle: 50
 
 neck_pitch_joint:
   pololu_id: 12
   motor_id: 0
-  min: 1285
-  init: 1657
-  max: 2000
+  min: 1050
+  init: 1580
+  max: 1823
   reverse: true
   calibration:
     min_pulse: 1000
-    min_angle: -50
+    min_angle: -45
     max_pulse: 2000
-    max_angle: 50
+    max_angle: 45
 
 jaw_joint:
   pololu_id: 12
   motor_id: 1
   min: 1056
-  init: 1055
-  #TODO: edit the check at the start so that init can be 1056
+  init: 1057
   max: 1282
   reverse: false
   calibration:
@@ -57,8 +56,8 @@ smile_joint:
   pololu_id: 12
   motor_id: 2
   min: 1008
-  init: 1847
-  max: 2000
+  init: 1398
+  max: 1904
   reverse: true
   calibration:
     min_pulse: 1000
