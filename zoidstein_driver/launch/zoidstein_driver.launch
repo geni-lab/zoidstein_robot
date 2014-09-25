@@ -7,6 +7,7 @@
         <param name="port_name" value="/dev/ttyACM0" />
         <param name="baud_rate" value="115200" />
         <param name="rate_hz" value="10" />
+        <param name="daisy_chain" value="false" />
     </node>
 
     <!--<node pkg="ros_bge_bridge" type="run_bge_controllers.py" name="bge_controllers" output="screen">-->
