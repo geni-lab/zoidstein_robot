@@ -8,6 +8,8 @@
         <!--<param name="rate_hz" value="10" />-->
     <!--</node>-->
 
+    <param name="show_blender_gui" type="bool" value="true" />
+
     <param name="robot_description" command="$(find xacro)/xacro.py $(find zoidstein_description)/urdf/zoidstein_robot.urdf.xacro" />
     <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" />
     <node pkg="zoidstein_driver" type="joint_state_publisher_node.py" name="joint_state_publisher" />
@@ -25,20 +27,20 @@
     </node>
 
     <!-- HRI action servers -->
-    <node pkg="hri_common" type="blender_target_server_node.py" name="gaze_action_server" output="screen">
-        <param name="origin_frame" value="base_link" />
-        <param name="action_server_name" value="gaze" />
-        <param name="controller_name" value="zoidstein_gaze_controller" />
-        <param name="end_effector_frame" value="gaze" />
-        <param name="success_distance" value="0.15" />
-        <param name="axes" value="yz" />
-        <param name="target_name" value="gaze_target" />
-        <param name="rate" value="10" />
-    </node>
+    <!--<node pkg="hri_common" type="blender_target_server_node.py" name="gaze_action_server" output="screen">-->
+        <!--<param name="origin_frame" value="base_link" />-->
+        <!--<param name="action_server_name" value="gaze" />-->
+        <!--<param name="controller_name" value="zoidstein_gaze_controller" />-->
+        <!--<param name="end_effector_frame" value="gaze" />-->
+        <!--<param name="success_distance" value="0.15" />-->
+        <!--<param name="axes" value="yz" />-->
+        <!--<param name="target_name" value="gaze_target" />-->
+        <!--<param name="rate" value="10" />-->
+    <!--</node>-->
 
-    <node pkg="hri_common" type="mini_head_lip_sync_node.py" name="lip_sync" output="screen"/>
-    <node pkg="hri_common" type="mini_head_expression_server_node.py" name="expression_server" output="screen"/>
-    <node pkg="hri_common" type="itf_tts_server_node.py" name="tts_server" output="screen"/>
+    <!--<node pkg="hri_common" type="mini_head_lip_sync_node.py" name="lip_sync" output="screen"/>-->
+    <!--<node pkg="hri_common" type="mini_head_expression_server_node.py" name="expression_server" output="screen"/>-->
+    <!--<node pkg="hri_common" type="itf_tts_server_node.py" name="tts_server" output="screen"/>-->
 
 
     <!-- Fake people -->
