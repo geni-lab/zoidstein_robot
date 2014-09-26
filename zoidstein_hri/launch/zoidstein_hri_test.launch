@@ -1,12 +1,12 @@
 <launch>
 
     <!-- Drivers -->
-    <!--<node pkg="ros_pololu_servo" type="ros_pololu_servo_node" name="ros_pololu_servo_node" output="screen">-->
-        <!--<param name="pololu_motors_yaml" value="$(find zoidstein_driver)/launch/zoidstein_pololu_motors.yaml" />-->
-        <!--<param name="port_name" value="/dev/ttyACM0" />-->
-        <!--<param name="baud_rate" value="115200" />-->
-        <!--<param name="rate_hz" value="10" />-->
-    <!--</node>-->
+    <node pkg="ros_pololu_servo" type="ros_pololu_servo_node" name="ros_pololu_servo_node" output="screen">
+        <param name="pololu_motors_yaml" value="$(find zoidstein_driver)/launch/zoidstein_pololu_motors.yaml" />
+        <param name="port_name" value="/dev/ttyACM0" />
+        <param name="baud_rate" value="115200" />
+        <param name="rate_hz" value="10" />
+    </node>
 
     <param name="show_blender_gui" type="bool" value="false" />
 
@@ -20,14 +20,14 @@
 
     <node pkg="ros_blender_bridge" type="run_target_controllers.py" name="blender_target_controllers" output="screen" />
 
-    <node pkg="ros_blender_bridge" type="launch_blender" name="launch_blender" output="screen">
+    <node pkg="ros_blender_bridge" type="launch_blender" name="launch_blender_one" output="screen">
         <param name="blend_file" value="$(find zoidstein_description)/blender/zoidstein.blend" />
         <param name="use_game_engine" value="false" />
         <param name="python_script" value="$(find ros_blender_bridge)/scripts/run_blender_node.py" />
     </node>
 
-    <node pkg="ros_blender_bridge" type="launch_blender" name="launch_blender" output="screen">
-        <param name="blend_file" value="$(find run_joint_trajectory_server)/launch/zoidstein.blend" />
+    <node pkg="ros_blender_bridge" type="launch_blender" name="launch_blender_two" output="screen">
+        <param name="blend_file" value="$(find zoidstein_description)/blender/zoidstein.blend" />
         <param name="use_game_engine" value="false" />
         <param name="python_script" value="$(find ros_blender_bridge)/scripts/run_joint_trajectory_server.py" />
     </node>
@@ -44,9 +44,9 @@
         <!--<param name="rate" value="10" />-->
     <!--</node>-->
 
-    <!--<node pkg="hri_common" type="mini_head_lip_sync_node.py" name="lip_sync" output="screen"/>-->
-    <!--<node pkg="hri_common" type="mini_head_expression_server_node.py" name="expression_server" output="screen"/>-->
-    <!--<node pkg="hri_common" type="itf_tts_server_node.py" name="tts_server" output="screen"/>-->
+    <node pkg="hri_common" type="mini_head_lip_sync_node.py" name="lip_sync" output="screen"/>
+    <node pkg="hri_common" type="mini_head_expression_server_node.py" name="expression_server" output="screen"/>
+    <node pkg="hri_common" type="itf_tts_server_node.py" name="tts_server" output="screen"/>
 
 
     <!-- Fake people -->

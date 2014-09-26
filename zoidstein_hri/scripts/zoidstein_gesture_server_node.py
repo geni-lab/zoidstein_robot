@@ -35,7 +35,6 @@ from zoidstein_hri import RSMSerialNode
 from threading import Timer
 import rospy
 import actionlib
-from ros
 from ros_pololu_servo.msg import pololu_trajectoryAction, pololu_trajectoryGoal
 from trajectory_msgs.msg import JointTrajectory
 from ros_blender_bridge.srv import GetJointTrajectory
